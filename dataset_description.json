@@ -1,0 +1,7 @@
+{
+  "Name": "organize BraTS as BIDS", 
+  "BIDSVersion": "1.0.2",
+  "License": "???",
+  "ReferencesAndLinks":"extract flair image from brats data for whole tumor segmentation",
+  "Authors": ["BraTS"] 
+}
