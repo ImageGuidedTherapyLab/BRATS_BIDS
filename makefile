@@ -10,9 +10,11 @@ mriqcfl: $(foreach uid,$(FLAIRLIST),derivatives/mriqc/sub-$(uid)/ses-BRATS/anat/
 
 #docker run --entrypoint=/bin/bash CHILD_IMAGE
 #docker run -it --rm -v /rsrch1/ip/dtfuentes/github/BraTS_BIDS:/data:ro -v /rsrch1/ip/dtfuentes/github/BraTS_BIDS/derivatives/mriqc:/out --user $(id -u):$(id -g) --entrypoint=/bin/bash poldracklab/mriqc:latest 
+derivatives/mriqc/sub-%/ses-BRATS/anat/dbg:
+	mkdir -p $(@D)
+	docker run -it --rm -v $(PWD):/data:ro -v $(PWD)/derivatives/mriqc:/out --user $$(id -u):$$(id -g)  poldracklab/mriqc:latest /data /out participant --participant_label $*  --no-sub --work-dir /out --verbose-reports --write-graph --nprocs 12 --ants-nthreads 12 
 derivatives/mriqc/sub-%/ses-BRATS/anat/run:
 	mkdir -p $(@D)
-	#docker run -it --rm -v $(PWD):/data:ro -v $(PWD)/derivatives/mriqc:/out --user $$(id -u):$$(id -g)  poldracklab/mriqc:latest /data /out participant --participant_label $*  --no-sub --work-dir /out --verbose-reports --write-graph --nprocs 12 --ants-nthreads 12 
 	docker run -it --rm -v $(PWD):/data:ro -v $(PWD)/derivatives/mriqc:/out --user $$(id -u):$$(id -g)  poldracklab/mriqc:latest /data /out participant --participant_label $*  --no-sub                                                 --nprocs 12 --ants-nthreads 12 
 
 # bids format
