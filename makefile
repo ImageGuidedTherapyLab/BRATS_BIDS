@@ -12,7 +12,8 @@ mriqcfl: $(foreach uid,$(FLAIRLIST),derivatives/mriqc/sub-$(uid)/ses-BRATS/anat/
 #docker run -it --rm -v /rsrch1/ip/dtfuentes/github/BraTS_BIDS:/data:ro -v /rsrch1/ip/dtfuentes/github/BraTS_BIDS/derivatives/mriqc:/out --user $(id -u):$(id -g) --entrypoint=/bin/bash poldracklab/mriqc:latest 
 derivatives/mriqc/sub-%/ses-BRATS/anat/run:
 	mkdir -p $(@D)
-	docker run -it --rm -v $(PWD):/data:ro -v $(PWD)/derivatives/mriqc:/out --user $$(id -u):$$(id -g)  poldracklab/mriqc:latest /data /out participant --participant_label $*  --no-sub --work-dir /out --verbose-reports --write-graph --nprocs 12
+	#docker run -it --rm -v $(PWD):/data:ro -v $(PWD)/derivatives/mriqc:/out --user $$(id -u):$$(id -g)  poldracklab/mriqc:latest /data /out participant --participant_label $*  --no-sub --work-dir /out --verbose-reports --write-graph --nprocs 12 --ants-nthreads 12 
+	docker run -it --rm -v $(PWD):/data:ro -v $(PWD)/derivatives/mriqc:/out --user $$(id -u):$$(id -g)  poldracklab/mriqc:latest /data /out participant --participant_label $*  --no-sub                                                 --nprocs 12 --ants-nthreads 12 
 
 # bids format
 # https://bids-specification.readthedocs.io/en/bep-009/04-modality-specific-files/01-magnetic-resonance-imaging-data.html
@@ -20,8 +21,8 @@ sub-B%/ses-BRATS/anat/setup:
 	mkdir -p $(@D)
 	mkdir -p derivatives/manual_masks/sub-B$*/anat/
 	mkdir -p derivatives/mriqc/sub-B$*/ses-BRATS/anat/
-	c4d -verbose /rsrch1/ip/rmuthusivarajan/imaging/BraTS/Task01_BrainTumour/imagesTr/BRATS_$*.nii.gz -slice w 0 -o $(@D)/sub-B$*_ses-BRATS_FLAIR.nii.gz
-	ln -snf  ./sub-B$*_ses-BRATS_FLAIR.nii.gz $(@D)/sub-A$*_ses-BRATS_T2w.nii.gz
+	ln -snf  ../../../sub-A$*/ses-BRATS/anat/sub-A$*_ses-BRATS_FLAIR.nii.gz  $(@D)/sub-B$*_ses-BRATS_T2w.nii.gz
+	ln -snf  ./sub-B$*_ses-BRATS_T2w.json derivatives/mriqc/sub-B$*/ses-BRATS/anat/sub-B$*_ses-BRATS_FLAIR.json
 sub-A%/ses-BRATS/anat/setup:
 	mkdir -p $(@D)
 	mkdir -p derivatives/manual_masks/sub-A$*/anat/
