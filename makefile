@@ -23,6 +23,7 @@ sub-B%/ses-BRATS/anat/setup:
 	mkdir -p derivatives/mriqc/sub-B$*/ses-BRATS/anat/
 	ln -snf  ../../../sub-A$*/ses-BRATS/anat/sub-A$*_ses-BRATS_FLAIR.nii.gz  $(@D)/sub-B$*_ses-BRATS_T2w.nii.gz
 	ln -snf  ./sub-B$*_ses-BRATS_T2w.json derivatives/mriqc/sub-B$*/ses-BRATS/anat/sub-B$*_ses-BRATS_FLAIR.json
+	ln -snf  ../../../../../derivatives/mriqc/sub-B$*/ses-BRATS/anat/sub-B$*_ses-BRATS_T2w.json derivatives/mriqc/sub-A$*/ses-BRATS/anat/sub-A$*_ses-BRATS_FLAIR.json
 sub-A%/ses-BRATS/anat/setup:
 	mkdir -p $(@D)
 	mkdir -p derivatives/manual_masks/sub-A$*/anat/
